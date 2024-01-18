@@ -19,8 +19,8 @@ app.get("/products", (req, res) => {
 
 app.post("/products", (req, res) => {
   const prod = req.body;
-  createProducts();
-  res.status(200).send("Succes");
+  createProducts(prod);
+  res.status(201).send(prod);
 });
 
 app.put("/products/:id", (req, res) => {

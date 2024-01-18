@@ -6,16 +6,20 @@ const readProducts = () => {
   return data;
 };
 
-const createProducts = (data) => {
-  fs.readFileSync("MOCK_DATA.json", "utf-8", (err, json) => {
+const createProducts = async (data) => {
+  try {
+    const json = fs.readFileSync("MOCK_DATA.json", "utf-8");
     const oldData = JSON.parse(json);
     oldData.push(data);
-    fs.writeFileSync("MOCK_DATA.json", JSON.stringify(oldData));
-  });
-  return data;
+    await fs.writeFileSync("MOCK_DATA.json", JSON.stringify(oldData));
+    return data;
+  } catch (error) {
+    alert("Error: Creating Product");
+    throw error;
+  }
 };
 
-constupdateProducts = (id, data) => {
+const updateProducts = (id, data) => {
   const json = fs.readFileSync("MOCK_DATA.json", "utf-8");
   let oldData = JSON.parse(json);
   const dataToUpdate = oldData.find((element) => element.id === id);
@@ -23,4 +27,17 @@ constupdateProducts = (id, data) => {
   oldData.push({ ...dataToUpdate, ...data });
   fs.writeFileSync("MOCK_DATA.json", JSON.stringify(oldData));
 };
-module.exports = { readProducts, createProducts };
+
+const deleteProducts = (id, data) => {
+  try {
+    const json = fs.readFileSync("MOCK_DATA.json", "utf-8");
+    const oldData = JSON.parse(json);
+    const newData = oldData.filter((element) => element.id !== id);
+    fs.writeFileSync("MOCK_DATA.json", JSON.stringify(newData));
+    return data;
+  } catch (error) {
+    alert("Error deleting product");
+  }
+};
+
+module.exports = { readProducts, createProducts, deleteProducts };
