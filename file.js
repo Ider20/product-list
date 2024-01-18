@@ -10,7 +10,10 @@ const createProducts = async (data) => {
   try {
     const json = fs.readFileSync("MOCK_DATA.json", "utf-8");
     const oldData = JSON.parse(json);
+    data.id = Math.floor(Math.random() * 1000);
+    console.log(oldData.id, "oldData.id");
     oldData.push(data);
+
     await fs.writeFileSync("MOCK_DATA.json", JSON.stringify(oldData));
     return data;
   } catch (error) {
@@ -20,23 +23,30 @@ const createProducts = async (data) => {
 };
 
 const updateProducts = (id, data) => {
-  const json = fs.readFileSync("MOCK_DATA.json", "utf-8");
-  let oldData = JSON.parse(json);
-  const dataToUpdate = oldData.find((element) => element.id === id);
-  oldData = oldData.filter((element) => element.id !== id);
-  oldData.push({ ...dataToUpdate, ...data });
-  fs.writeFileSync("MOCK_DATA.json", JSON.stringify(oldData));
+  try {
+    const json = fs.readFileSync("MOCK_DATA.json", "utf-8");
+    let oldData = JSON.parse(json);
+    const dataToUpdate = oldData.find((element) => element.id === id);
+    oldData = oldData.filter((element) => element.id !== id);
+    oldData.push({ ...dataToUpdate, ...data });
+    fs.writeFileSync("MOCK_DATA.json", JSON.stringify(oldData));
+  } catch (error) {
+    console.log("Error to update");
+  }
 };
 
-const deleteProducts = (id, data) => {
+const deleteProducts = (id) => {
   try {
     const json = fs.readFileSync("MOCK_DATA.json", "utf-8");
     const oldData = JSON.parse(json);
-    const newData = oldData.filter((element) => element.id !== id);
+    // console.log(oldData, "oldData");
+    const newData = oldData.filter(
+      (element) => Number(element.id) !== Number(id)
+    );
+    // console.log(newData, "newData");
     fs.writeFileSync("MOCK_DATA.json", JSON.stringify(newData));
-    return data;
   } catch (error) {
-    alert("Error deleting product");
+    console.error("Error to delete");
   }
 };
 
