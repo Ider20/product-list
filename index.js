@@ -20,6 +20,7 @@ app.get("/products", (req, res) => {
 
 // Adding product scene
 app.post("/products", (req, res) => {
+  console.log("req.body", req.body);
   const prod = req.body;
   createProducts(prod);
   res.status(201).send(prod);

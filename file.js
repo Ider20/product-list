@@ -17,7 +17,7 @@ const createProducts = async (data) => {
     await fs.writeFileSync("MOCK_DATA.json", JSON.stringify(oldData));
     return data;
   } catch (error) {
-    alert("Error: Creating Product");
+    console.error("Error: Creating Product");
     throw error;
   }
 };
