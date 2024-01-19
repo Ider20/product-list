@@ -10,7 +10,7 @@ const createProducts = async (data) => {
   try {
     const json = fs.readFileSync("MOCK_DATA.json", "utf-8");
     const oldData = JSON.parse(json);
-    data.id = Math.floor(Math.random() * 1000);
+    data.id = Math.floor(Math.random(36) * 100000);
     console.log(oldData.id, "oldData.id");
     oldData.push(data);
 
